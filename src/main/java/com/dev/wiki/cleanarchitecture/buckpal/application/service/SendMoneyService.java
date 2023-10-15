@@ -31,8 +31,13 @@ public class SendMoneyService implements SendMoneyUseCase {
 		Account fromAccount = loadAccountPort.loadAccount(command.fromId(), baselineDate);
 		Account toAccount = loadAccountPort.loadAccount(command.toId(), baselineDate);
 
+		// validation 생략
+		fromAccount.withdraw(Money.of(command.amount()), toAccount.getId().get());
+		toAccount.deposit(Money.of(command.amount()), fromAccount.getId().get());
 
-
+		updateAccountStatePort.updateActivities(fromAccount);
+		updateAccountStatePort.updateActivities(toAccount);
 		return false;
 	}
+
 }

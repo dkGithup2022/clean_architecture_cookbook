@@ -17,6 +17,10 @@ public class Money {
 		return new Money(amount);
 	}
 
+	public static Money of(Long amount) {
+		return Money.of(BigDecimal.valueOf(amount));
+	}
+
 	public Money add(Money amount) {
 		return Money.of(this.getAmount().subtract(amount.getAmount()));
 	}
