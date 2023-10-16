@@ -9,9 +9,6 @@ import org.junit.jupiter.api.Test;
 import com.dev.wiki.cleanarchitecture.AccountFixtureFactory;
 import com.dev.wiki.cleanarchitecture.buckpal.common.Money;
 
-import lombok.extern.slf4j.Slf4j;
-
-@Slf4j
 class AccountTest {
 
 	@Test

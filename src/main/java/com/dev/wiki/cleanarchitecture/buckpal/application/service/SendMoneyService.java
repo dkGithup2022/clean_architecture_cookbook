@@ -37,7 +37,7 @@ public class SendMoneyService implements SendMoneyUseCase {
 
 		updateAccountStatePort.updateActivities(fromAccount);
 		updateAccountStatePort.updateActivities(toAccount);
-		return false;
+		return true;
 	}
 
 }

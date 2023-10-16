@@ -1,20 +1,17 @@
 package com.dev.wiki.cleanarchitecture.buckpal.adapter.in;
 
-import java.math.BigDecimal;
-
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.dev.wiki.cleanarchitecture.buckpal.application.port.in.SendMoneyCommand;
 import com.dev.wiki.cleanarchitecture.buckpal.application.port.in.SendMoneyUseCase;
-import com.dev.wiki.cleanarchitecture.buckpal.common.Money;
 
 import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequiredArgsConstructor
-public class AccountController {
+public class SendMoneyController {
 
 	private final SendMoneyUseCase sendMoneyUseCase;
 

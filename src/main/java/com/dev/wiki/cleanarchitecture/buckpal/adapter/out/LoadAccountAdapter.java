@@ -6,7 +6,6 @@ import org.springframework.stereotype.Component;
 
 import com.dev.wiki.cleanarchitecture.buckpal.adapter.out.entity.AccountJpaEntity;
 import com.dev.wiki.cleanarchitecture.buckpal.adapter.out.entity.AccountRepository;
-import com.dev.wiki.cleanarchitecture.buckpal.adapter.out.entity.ActivityJpaEntity;
 import com.dev.wiki.cleanarchitecture.buckpal.adapter.out.entity.ActivityRepository;
 import com.dev.wiki.cleanarchitecture.buckpal.application.port.out.LoadAccountPort;
 import com.dev.wiki.cleanarchitecture.buckpal.domain.Account;
@@ -15,7 +14,7 @@ import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 @Component
-public class AccountPersistenceAdapter implements LoadAccountPort {
+public class LoadAccountAdapter implements LoadAccountPort {
 
 	private final AccountRepository accountRepository;
 	private final ActivityRepository activityRepository;

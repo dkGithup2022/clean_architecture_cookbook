@@ -4,11 +4,11 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.BDDMockito.*;
 
+import java.time.LocalDateTime;
+
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
-import org.springframework.beans.factory.annotation.Autowired;
 
-import com.dev.wiki.cleanarchitecture.AccountFixtureFactory;
 import com.dev.wiki.cleanarchitecture.buckpal.application.port.in.SendMoneyCommand;
 import com.dev.wiki.cleanarchitecture.buckpal.application.port.out.LoadAccountPort;
 import com.dev.wiki.cleanarchitecture.buckpal.application.port.out.UpdateAccountStatePort;
@@ -28,41 +28,37 @@ class SendMoneyServiceTest {
 
 	@Test
 	public void 송금_유즈케이스_성공() {
-		Account source = givenSourceAccount();
-		Account dest = givenDestAccount();
+		// mock domain & raed Port
+		Account sourceAccount = givenAnAccountWithId(new Account.AccountId(1L));
+		Account destAccount = givenAnAccountWithId(new Account.AccountId(2L));
 
+		// mock write port
+		givenUpdateAccountStatePortSucceed();
 
-		SendMoneyCommand cmd = new SendMoneyCommand(
-			source.getId().getValue(),
-			dest.getId().getValue(),
+		//req
+		SendMoneyCommand command = new SendMoneyCommand(
+			sourceAccount.getId().getValue(),
+			destAccount.getId().getValue(),
 			500L);
 
+		boolean success = sendMoneyService.sendMoney(command);
 
-
-
-		sendMoneyService.sendMoney(cmd);
-
+		assertTrue(success);
 	}
 
+	private Account givenAnAccountWithId(Account.AccountId id) {
+		Account account = Mockito.mock(Account.class);
+		given(account.getId())
+			.willReturn(id);
 
-	private void givenWithdrawalWillSucceed(Account account) {
-		given(account.withdraw(any(Money.class), any(Account.AccountId.class)))
-			.willReturn(true);
+		given(loadAccountPort.loadAccount(eq(account.getId().getValue()), any(LocalDateTime.class)))
+			.willReturn(account);
+
+		return account;
 	}
 
-	Account givenSourceAccount(){
-		return AccountFixtureFactory.account()
-			.id(new Account.AccountId(1L))
-			.baselineBalance(Money.of(10000L))
-			.build();
+	private void givenUpdateAccountStatePortSucceed() {
+		doNothing().when(updateAccountStatePort).updateActivities(any(Account.class));
 	}
-
-	Account givenDestAccount(){
-		return AccountFixtureFactory.account()
-			.id(new Account.AccountId(2L))
-			.build();
-	}
-
-
 
 }
