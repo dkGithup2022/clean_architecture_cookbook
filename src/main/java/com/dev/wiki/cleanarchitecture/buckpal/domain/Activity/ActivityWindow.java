@@ -50,14 +50,20 @@ public class ActivityWindow {
 		Money depositBalance = activities.stream()
 			.filter(a -> a.getTargetAccountId().equals(accountId))
 			.map(Activity::getMoney)
-			.reduce(Money.of(BigDecimal.ZERO), Money::add);
+			.reduce(Money.of(0L), Money::add);
 
 		Money withdrawalBalance = activities.stream()
 			.filter(a -> a.getSourceAccountId().equals(accountId))
 			.map(Activity::getMoney)
-			.reduce(Money.of(BigDecimal.ZERO), Money::add);
+			.reduce(Money.of(0L), Money::add);
 
-		return Money.of(depositBalance.minus( withdrawalBalance ).getAmount());
+		Money withdraw = activities.stream()
+			.filter(a->a.getSourceAccountId().equals(accountId))
+			.map(Activity::getMoney)
+			.reduce(Money.of(0L), Money::add);
+
+
+		return depositBalance.minus(withdrawalBalance);
 	}
 
 	public ActivityWindow(@NonNull  List<Activity> activities) {

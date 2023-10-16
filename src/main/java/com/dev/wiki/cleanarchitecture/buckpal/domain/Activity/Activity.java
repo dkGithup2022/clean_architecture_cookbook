@@ -9,7 +9,7 @@ import lombok.Getter;
 import lombok.NonNull;
 import lombok.Value;
 
-@Value
+
 public class Activity {
 	@Getter
 	private ActivityId id;

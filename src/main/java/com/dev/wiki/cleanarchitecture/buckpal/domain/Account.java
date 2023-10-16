@@ -7,18 +7,16 @@ import com.dev.wiki.cleanarchitecture.buckpal.common.Money;
 import com.dev.wiki.cleanarchitecture.buckpal.domain.Activity.Activity;
 import com.dev.wiki.cleanarchitecture.buckpal.domain.Activity.ActivityWindow;
 
-import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Value;
 
-@Entity
 @Table(name = "ACCOUNT")
 @Getter
 public class Account {
 
+	@Getter
 	private final AccountId id;
-
 
 	private final Money baselineBalance;
 
@@ -30,23 +28,17 @@ public class Account {
 		this.activityWindow = activityWindow;
 	}
 
-
 	public static Account withoutId(
 		Money baselineBalance,
 		ActivityWindow activityWindow) {
 		return new Account(null, baselineBalance, activityWindow);
 	}
 
-
 	public static Account withId(
 		AccountId accountId,
 		Money baselineBalance,
 		ActivityWindow activityWindow) {
 		return new Account(accountId, baselineBalance, activityWindow);
-	}
-
-	public Optional<AccountId> getId() {
-		return Optional.ofNullable(this.id);
 	}
 
 	/**
@@ -74,11 +66,14 @@ public class Account {
 			LocalDateTime.now(),
 			money);
 		this.activityWindow.addActivity(withdrawal);
+
+
+
 		return true;
 	}
 
 	private boolean mayWithdraw(Money money) {
-		return money.minus(this.calculateBalance()).isPositive();
+		return this.calculateBalance().minus(money).isPositive();
 	}
 
 	public boolean deposit(Money money, AccountId sourceAccountId) {
@@ -89,10 +84,12 @@ public class Account {
 			LocalDateTime.now(),
 			money);
 		this.activityWindow.addActivity(deposit);
+
 		return true;
 	}
 
 	@Value
+
 	public static class AccountId {
 		private Long value;
 	}

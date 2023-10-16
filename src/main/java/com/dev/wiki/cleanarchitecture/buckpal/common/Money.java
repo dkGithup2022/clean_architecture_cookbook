@@ -22,14 +22,18 @@ public class Money {
 	}
 
 	public Money add(Money amount) {
-		return Money.of(this.getAmount().subtract(amount.getAmount()));
+		return Money.of(this.getAmount().add(amount.getAmount()));
 	}
 
 	public Money minus(Money amount) {
-		return Money.of(this.getAmount().add(amount.getAmount()));
+		return Money.of(this.getAmount().subtract(amount.getAmount()));
 	}
 
 	public boolean isPositive() {
 		return this.amount.compareTo(BigDecimal.ZERO) >= 0;
+	}
+
+	public boolean isEquals(Money money) {
+		return this.amount.compareTo(money.amount) == 0;
 	}
 }
