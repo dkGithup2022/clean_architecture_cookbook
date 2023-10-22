@@ -11,7 +11,7 @@ import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Value;
 
-@Table(name = "ACCOUNT")
+
 @Getter
 public class Account {
 
